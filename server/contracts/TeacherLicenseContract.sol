@@ -16,19 +16,21 @@ contract TeacherLicense {
 
     }
     
-    mapping(string => TeacherLicenseDetails) teacherLicenses;
+    mapping(bytes32 => TeacherLicenseDetails) public teacherLicenses;
     
     event AddTeacherLicense(
-        string citizenId,
-        string prefixName,
-        string firstName,
-        string lastName,
-        string prefixNameEng,
-        string firstNameEng,
-        string lastNameEng,
-        string licenseType,
-        uint createdAt
+        bytes32 byteId
     );
+
+    function stringToBytes32(string memory source) private pure returns (bytes32 result) {
+        bytes memory tempEmptyStringTest = bytes(source);
+        if (tempEmptyStringTest.length == 0) {
+            return 0x0;
+        }
+        assembly {
+                result := mload(add(source, 32))
+        }
+    }
     
     function addTeacherLicense(
         string memory _citizenId,
@@ -40,6 +42,8 @@ contract TeacherLicense {
         string memory _lastNameEng,
         string memory _licenseType
     ) public {
+        bytes32 byteId = stringToBytes32(_citizenId);
+
         TeacherLicenseDetails memory newTeacherLicense = TeacherLicenseDetails(
             _citizenId,
             _prefixName,
@@ -51,18 +55,10 @@ contract TeacherLicense {
             _licenseType,
             block.timestamp
         );
-        teacherLicenses[_citizenId] = newTeacherLicense;
+        teacherLicenses[byteId] = newTeacherLicense;
         
         emit AddTeacherLicense(
-            _citizenId,
-            _prefixName,
-            _firstName,
-            _lastName,
-            _prefixNameEng,
-            _firstNameEng,
-            _lastNameEng,
-            _licenseType,
-            block.timestamp
+            byteId
         );
         
     }
@@ -78,7 +74,9 @@ contract TeacherLicense {
         string memory,
         uint 
     ) {
-        TeacherLicenseDetails memory teacherLicense = teacherLicenses[_citizenId];
+        bytes32 byteId = stringToBytes32(_citizenId);
+
+        TeacherLicenseDetails memory teacherLicense = teacherLicenses[byteId];
         return (
             teacherLicense.citizenId,
             teacherLicense.prefixName,

@@ -3,8 +3,21 @@ import SearchForm from "./SearchForm";
 import TeacherLicenseContent from "./TeacherLicenseContent";
 
 function SearchTeacherLicense() {
-  const [licenseData, setLicenseData] = useState({});
-  return <div>{licenseData ? <SearchForm /> : <TeacherLicenseContent />}</div>;
+  const [teacherLicenseData, setTeacherLicenseData] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  return (
+    <div>
+      {!isSubmitted ? (
+        <SearchForm
+          setTeacherLicenseData={setTeacherLicenseData}
+          setIsSubmitted={setIsSubmitted}
+        />
+      ) : (
+        <TeacherLicenseContent teacherLicenseData={teacherLicenseData} />
+      )}
+    </div>
+  );
 }
 
 export default SearchTeacherLicense;
