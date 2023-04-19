@@ -14,6 +14,8 @@ function TeacherLicenseForm() {
     });
   };
 
+  console.log("state = ", state);
+
   async function onSubmit(e) {
     e.preventDefault();
     console.log("submit");
@@ -27,82 +29,140 @@ function TeacherLicenseForm() {
 
   return (
     <div>
-      Registration
-      <form onSubmit={onSubmit}>
-        <div>
-          <span>เลขประจำตัวประชาชน</span>
-          <input
-            type="text"
-            name="citizenId"
-            value={state.citizenId}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <span>คำนำหน้า</span>
-          <input
-            type="text"
-            name="prefixName"
-            value={state.prefixName}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <span>ชื่อ</span>
-          <input
-            type="text"
-            name="firstName"
-            value={state.firstName}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <span>นามสกุล</span>
-          <input
-            type="text"
-            name="lastName"
-            value={state.lastName}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <span>Name Title</span>
-          <input
-            type="text"
-            name="prefixNameEng"
-            value={state.prefixNameEng}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <span>Name</span>
-          <input
-            type="text"
-            name="firstNameEng"
-            value={state.firstNameEng}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <span>Last name</span>
-          <input
-            type="text"
-            name="lastNameEng"
-            value={state.lastNameEng}
-            onChange={onChange}
-          />
-        </div>
-        <div>
-          <span>ประเภทวิชาชีพ</span>
-          <input
-            type="text"
-            name="licenseType"
-            value={state.licenseType}
-            onChange={onChange}
-          />
-        </div>
-        <button type="submit">บันทึก</button>
-      </form>
+      <div className="m-5 text-center fs-4 fw-bold">Registration</div>
+      <div className="row">
+        <div className="col-3"></div>
+        <form onSubmit={onSubmit} className="col-6 justify-content-center">
+          <div>
+            <label htmlFor="citizenId" className="form-label">
+              เลขประจำตัวประชาชน
+            </label>
+            <input
+              id="citizenId"
+              type="text"
+              name="citizenId"
+              value={state.citizenId}
+              onChange={onChange}
+              className="form-control mb-3"
+            />
+          </div>
+
+          <div className="row">
+            <div className="col-3">
+              <label htmlFor="prefixName" className="form-label">
+                คำนำหน้า
+              </label>
+              <select
+                id="prefixName"
+                className="form-select mb-3"
+                name="prefixName"
+                onChange={onChange}
+              >
+                <option>เลือกคำนำหน้า</option>
+                <option value="นาย">นาย</option>
+                <option value="นางสาว">นางสาว</option>
+              </select>
+            </div>
+            <div className="col-9">
+              <label htmlFor="firstName" className="form-label">
+                ชื่อ
+              </label>
+              <input
+                id="firstName"
+                type="text"
+                name="firstName"
+                value={state.firstName}
+                onChange={onChange}
+                className="form-control mb-3"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="lastName" className="form-label">
+              นามสกุล
+            </label>
+            <input
+              id="lastName"
+              type="text"
+              name="lastName"
+              value={state.lastName}
+              onChange={onChange}
+              className="form-control mb-3"
+            />
+          </div>
+
+          <div className="row">
+            <div className="col-3">
+              <label htmlFor="prefixNameEng" className="form-label">
+                Name Title
+              </label>
+              <select
+                id="prefixNameEng"
+                className="form-select mb-3"
+                name="prefixNameEng"
+                onChange={onChange}
+              >
+                <option>Choose name title</option>
+                <option value="Mr.">Mr.</option>
+                <option value="Miss">Miss</option>
+              </select>
+            </div>
+            <div className="col-9">
+              <label htmlFor="firstNameEng" className="form-label">
+                Name
+              </label>
+              <input
+                id="firstNameEng"
+                type="text"
+                name="firstNameEng"
+                value={state.firstNameEng}
+                onChange={onChange}
+                className="form-control mb-3"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="lastNameEng" className="form-label">
+              Last name
+            </label>
+            <input
+              id="lastNameEng"
+              type="text"
+              name="lastNameEng"
+              value={state.lastNameEng}
+              onChange={onChange}
+              className="form-control mb-3"
+            />
+          </div>
+          <div>
+            <label htmlFor="licenseType" className="form-label">
+              ประเภทวิชาชีพ
+            </label>
+            <select
+              id="licenseType"
+              className="form-select mb-3"
+              name="licenseType"
+              onChange={onChange}
+            >
+              <option>เลือกประเภทวิชาชีพ</option>
+              <option value="วิชาชีพครู">วิชาชีพครู</option>
+              <option value="บุคลากรทางการศึกษา">บุคลากรทางการศึกษา</option>
+            </select>
+          </div>
+
+          <div className="row justify-content-center m-3">
+            <button
+              type="submit"
+              className="btn btn-warning text-white col-2 rounded-pill"
+            >
+              บันทึก
+            </button>
+          </div>
+        </form>
+        <div className="col-3"></div>
+      </div>
     </div>
   );
 }

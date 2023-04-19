@@ -1,7 +1,8 @@
 import { ethers } from "ethers";
+import axios from "axios";
 
 import teacherLicenseAbi from "../../abi/TeacherLicense.json";
-import { teacherLicenseContractAddress } from "../../config";
+import { TEACHER_LICENSE_CONTRACT_ADDRESS, BACKEND_URL } from "../../config.js";
 
 async function addTeacherLicense(state) {
   try {
@@ -12,13 +13,13 @@ async function addTeacherLicense(state) {
       const signer = provider.getSigner();
 
       const teacherLicenseContract = new ethers.Contract(
-        teacherLicenseContractAddress,
+        TEACHER_LICENSE_CONTRACT_ADDRESS,
         teacherLicenseAbi.abi,
         signer
       );
 
-      teacherLicenseContract
-        .addTeacherLicense(
+      const teacherLicenseContractResponse =
+        await teacherLicenseContract.addTeacherLicense(
           state.citizenId,
           state.prefixName,
           state.firstName,
@@ -27,13 +28,20 @@ async function addTeacherLicense(state) {
           state.firstNameEng,
           state.lastNameEng,
           state.licenseType
-        )
-        .then((response) => {
-          console.log("Completed Task", JSON.stringify(response));
-        })
-        .catch((err) => {
-          console.log("Error occured while adding a new task", err);
-        });
+        );
+      console.log(
+        "Completed Task 1",
+        JSON.stringify(teacherLicenseContractResponse)
+      );
+
+      const savedTeacherLicense = await axios.post(
+        `${BACKEND_URL}/apis/teacher-license`,
+        {
+          citizenId: state.citizenId,
+          transactionHash: teacherLicenseContractResponse.hash,
+        }
+      );
+      console.log("Completed Task 2", JSON.stringify(savedTeacherLicense));
     } else {
       console.log("Ethereum object doesn't exist!");
     }

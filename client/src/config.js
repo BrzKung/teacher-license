@@ -1,2 +1,4 @@
-export const teacherLicenseContractAddress =
-  "0x3BDCE00cf82264a786b4441e89C556458fe7d69B";
+export const BACKEND_URL =
+  process.env.REACT_APP_BACKEND_URL || "http://localhost:3001";
+export const TEACHER_LICENSE_CONTRACT_ADDRESS =
+  process.env.REACT_APP_TEACHER_LICENSE_CONTRACT_ADDRESS || "";
